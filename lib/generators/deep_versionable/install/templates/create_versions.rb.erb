@@ -1,0 +1,12 @@
+class CreateVersions < ActiveRecord::Migration<%= migration_version %>
+  def change
+    create_table :versions do |t|
+      t.integer :version, null: false
+      t.references :versionable, polymorphic: true, null: false
+      t.jsonb :object, null: false
+
+      t.index [:version, :versionable_id, :versionable_type], unique: true, name: 'index_versions_on_version_and_versionable'
+      t.timestamps
+    end
+  end
+end
