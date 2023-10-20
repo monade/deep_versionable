@@ -12,4 +12,15 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.before(:suite) do
+    Schema.create
+  end
+
+  config.around(:each) do |example|
+    ActiveRecord::Base.transaction do
+      example.run
+      raise ActiveRecord::Rollback
+    end
+  end
 end

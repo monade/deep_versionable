@@ -4,7 +4,6 @@ require "rails/generators"
 require "rails/generators/active_record"
 
 module DeepVersionable
-  # Basic structure to support a generator that builds a migration
   class MigrationGenerator < ::Rails::Generators::Base
     include ::Rails::Generators::Migration
 
@@ -14,7 +13,7 @@ module DeepVersionable
 
     protected
 
-    def add_deep_versionable_migration(template, extra_options = {})
+    def add_deep_versionable_migration(template)
       migration_dir = File.expand_path("db/migrate")
       if self.class.migration_exists?(migration_dir, template)
         ::Kernel.warn "Migration already exists: #{template}"
@@ -22,7 +21,7 @@ module DeepVersionable
         migration_template(
           "#{template}.rb.erb",
           "db/migrate/#{template}.rb",
-          { migration_version: migration_version }.merge(extra_options)
+          { migration_version: migration_version }
         )
       end
     end

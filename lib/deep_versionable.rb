@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/concern'
+require 'active_record'
 
 module DeepVersionable
   extend ActiveSupport::Concern
@@ -80,7 +81,7 @@ module DeepVersionable
     end
   end
 
-  def versionize
+  def versionize!
     object = to_json(self.class._deep_versionable_relations)
 
     versions.create!(version: versions.count + 1, object: object)
